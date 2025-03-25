@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>簽約進度</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+        .status-text {
+            font-size: 20px;
+            margin: 15px 0;
+            min-height: 30px;
+            color: #333;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        .progress-bar {
+            height: 20px;
+            border-radius: 10px;
+            width: 0%;
+            background-color: #4CAF50;
+            transition: width 0.5s;
+            position: relative;
+        }
+        .progress-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            line-height: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .result {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 20px 0;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .success {
+            color: #4CAF50;
+        }
+        .failure {
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-text">🗨️ 正在談判中（70%概率談判成功）</div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-text">0%</div>
+            </div>
+        </div>
+        <div class="result success" id="success-message">談判成功！</div>
+        <div class="result failure" id="failure-message">談判失敗</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusText = document.querySelector('.status-text');
+            const progressBar = document.querySelector('.progress-bar');
+            const progressText = document.querySelector('.progress-text');
+            const successMessage = document.getElementById('success-message');
+            const failureMessage = document.getElementById('failure-message');
+            
+            // 动态省略号
+            let dots = '';
+            const updateDots = () => {
+                dots = dots.length >= 3 ? '' : dots + '.';
+                statusText.textContent = '🗨️ 正在談判中（70%概率談判成功）' + dots;
+            };
+            
+            const dotsInterval = setInterval(updateDots, 500);
+            updateDots(); // 立即执行一次
+            
+            // 进度条
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                if (progress < 100) {
+                    progress += 1;
+                    progressBar.style.width = progress + '%';
+                    progressText.textContent = progress + '%';
+                } else {
+                    clearInterval(progressInterval);
+                    clearInterval(dotsInterval);
+                    
+                    // 完成后随机显示成功或失败
+                    statusText.textContent = '';
+                    
+                    setTimeout(() => {
+                        // 70%概率成功，30%概率失败
+                        const isSuccess = Math.random() < 0.7;
+                        
+                        if (isSuccess) {
+                            successMessage.style.opacity = '1';
+                        } else {
+                            failureMessage.style.opacity = '1';
+                        }
+                    }, 500);
+                }
+            }, 50); // 整个过程约需要5秒
+        });
+    </script>
+</body>
+</html>
