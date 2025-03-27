@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -81,10 +80,11 @@
         <div class="result success" id="success-message">談判成功！</div>
         <div class="result failure" id="failure-message">談判失敗</div>
     </div>
+
     <audio id="bgMusic" loop muted>
         <source src="https://s11579783.github.io/music/background-music.mp3" type="audio/mpeg">
     </audio>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // 先定义所有函数
@@ -106,7 +106,7 @@
             const successMessage = document.getElementById('success-message');
             const failureMessage = document.getElementById('failure-message');
             const audio = document.getElementById('bgMusic');
-
+            
             // 初始化变量
             let dots = '';
             let progress = 0;
@@ -136,7 +136,7 @@
                     statusText.textContent = '';
                     
                     setTimeout(() => {
-                        const isSuccess = Math.random() < 1;
+                        const isSuccess = Math.random() < 0.7;
                         if (isSuccess) {
                             successMessage.style.opacity = '1';
                         } else {
@@ -144,7 +144,7 @@
                         }
                     }, 500);
                 }
-            }, 50); // 整个过程约需要5秒
+            }, 50);
         });
     </script>
 </body>
