@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>簽約進度</title>
+    <link rel="icon" href="data:,"> <!-- 禁用favicon请求 -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -79,24 +80,48 @@
         <div class="result success" id="success-message">談判成功！</div>
         <div class="result failure" id="failure-message">談判失敗</div>
     </div>
-
+    <audio id="bgMusic" loop muted>
+        <source src="https://s11579783.github.io/music/background-music.mp3" type="audio/mpeg">
+    </audio>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // 先定义所有函数
+            function handleAudioPlay() {
+                const audio = document.getElementById('bgMusic');
+                audio.muted = false;
+                audio.play().catch(e => console.log("播放失败:", e));
+            }
+
+            function updateDots() {
+                dots = dots.length >= 3 ? '' : dots + '.';
+                statusText.textContent = '🗨️ 正在談判中（70%概率談判成功）' + dots;
+            }
+
+            // 获取DOM元素
             const statusText = document.querySelector('.status-text');
             const progressBar = document.querySelector('.progress-bar');
             const progressText = document.querySelector('.progress-text');
             const successMessage = document.getElementById('success-message');
             const failureMessage = document.getElementById('failure-message');
-            
-            // 动态省略号
+            const audio = document.getElementById('bgMusic');
+
+            // 初始化变量
             let dots = '';
-            const updateDots = () => {
-                dots = dots.length >= 3 ? '' : dots + '.';
-                statusText.textContent = '🗨️ 正在談判中（70%概率談判成功）' + dots;
-            };
+            let progress = 0;
             
+            // 设置音频初始状态
+            audio.volume = 0.5;
+            
+            // 尝试静音自动播放
+            audio.play().catch(e => console.log("静音自动播放被阻止:", e));
+            
+            // 用户点击后取消静音
+            document.addEventListener('click', handleAudioPlay, { once: true });
+            
+            // 启动动态省略号
             const dotsInterval = setInterval(updateDots, 500);
-            updateDots(); // 立即执行一次
+            updateDots();
             
             // 进度条
             let progress = 0;
