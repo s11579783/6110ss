@@ -102,7 +102,7 @@
 
             function updateDots() {
                 dots = dots.length >= 3 ? '' : dots + '.';
-                statusText.textContent = '🗨️ 正在談判中（70%概率談判成功）' + dots;
+                statusText.textContent = '🗨️ 正在談判中' + dots;
             }
 
             // 获取DOM元素
@@ -142,7 +142,7 @@
                     statusText.textContent = '';
                     
                     setTimeout(() => {
-                        const isSuccess = Math.random() < 0.7;
+                        const isSuccess = Math.random() < 1;
                         if (isSuccess) {
                             successMessage.style.opacity = '1';
                         } else {
