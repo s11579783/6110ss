@@ -84,7 +84,6 @@
             </div>
         </div>
         <div class="result success" id="success-message">談判成功！</div>
-        <div class="result failure" id="failure-message">談判失敗</div>
     </div>
 
     <audio id="bgMusic" loop muted>
@@ -142,7 +141,7 @@
                     statusText.textContent = '';
                     
                     setTimeout(() => {
-                        const isSuccess = Math.random() < 0.7;
+                        const isSuccess = Math.random() < 1;
                         if (isSuccess) {
                             successMessage.style.opacity = '1';
                         } else {
